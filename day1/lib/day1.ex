@@ -3,31 +3,31 @@ defmodule Day1 do
   Documentation for Day1.
   """
 
-  def findOffset do
+  def get_final_offset do
     read_lines()
-      |> Enum.map(fn line -> String.to_integer(line) end) 
-      |> Enum.reduce(fn x, acc -> x + acc end)
+    |> Enum.reduce(fn offset, acc -> offset + acc end)
   end
 
   def findFirstDuplicate(acc \\ 0, mappy \\ %{}) do
-    lines =
-      read_lines()
-      |> Enum.map(fn line -> String.to_integer(line) end)
+    {offsets, total} = 
+      read_lines() 
+      |> Enum.map_reduce( acc, fn line, acc -> {line + acc, line + acc} end)
 
-    {offsets, total} = Enum.map_reduce(lines, acc, fn(line, acc) -> {line + acc, line + acc} end) 
-    offset_map = 
-      Enum.reduce(offsets, mappy, fn (offset, mapacc) ->  
+    offset_map =
+      Enum.reduce(offsets, mappy, fn offset, mapacc ->
         if Map.has_key?(mapacc, offset) do
           IO.inspect(offset)
           :timer.sleep(1000)
         end
         Map.put(mapacc, offset, 1)
-      end) 
+      end)
+
     findFirstDuplicate(total, offset_map)
   end
 
-
   def read_lines() do
-    File.stream!("input.txt") |> Enum.map(fn line -> String.trim(line) end)
+    File.stream!("input.txt") 
+    |> Enum.map(fn line -> String.trim(line) end)
+    |> Enum.map(fn line -> String.to_integer(line) end)
   end
 end
