@@ -8,7 +8,7 @@ defmodule Day1 do
     |> Enum.reduce(fn offset, acc -> offset + acc end)
   end
 
-  def findFirstDuplicate(acc \\ 0, mappy \\ %{}) do
+  def find_duplicates(acc \\ 0, mappy \\ %{}) do
     {offsets, total} = 
       read_lines() 
       |> Enum.map_reduce( acc, fn line, acc -> {line + acc, line + acc} end)
@@ -22,7 +22,7 @@ defmodule Day1 do
         Map.put(mapacc, offset, 1)
       end)
 
-    findFirstDuplicate(total, offset_map)
+    find_duplicates(total, offset_map)
   end
 
   def read_lines() do
