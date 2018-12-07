@@ -30,4 +30,21 @@ defmodule Day2 do
     Enum.any?(char_map, fn {k,v} -> v == count end)
   end
 
+  def part2  do
+
+    diffs = 
+      read_lines
+      |> get_string_pairs
+      |> Enum.map(fn {a, b} -> String.myers_difference(a,b) end)
+
+    best_matches = Enum.filter(diff_array, fn dif -> Enum.count(List.flatten(dif)) == 4 end)
+
+    #At this point I grab the best match from the output because im a cheater
+   
+  end
+
+  def get_string_pairs(list) do
+    for a <- list, b <- tl(list) do {a, b} end
+  end
+
 end
